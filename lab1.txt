@@ -1,0 +1,43 @@
+# Réponses aux Questions du Lab Docker
+
+## Section 1.0 - Questions conceptuelles
+
+**1. Pensez-vous que cela revient à exécuter une machine virtuelle ?**
+
+Non, ce n'est pas la même chose. Un conteneur partage le noyau de l'hôte alors qu'une machine virtuelle a son propre système d'exploitation complet. Les conteneurs sont donc plus légers et démarrent plus vite, mais les VMs offrent une meilleure isolation.
+
+**2. Un conteneur est une abstraction ?**
+
+b. d'application
+
+Un conteneur encapsule une application avec ses dépendances, pas le matériel.
+
+**3. Est-il possible d'utiliser à la fois des machines virtuelles et des conteneurs dans un même environnement ? Comment ?**
+
+Oui, c'est très courant. On peut faire tourner Docker dans des VMs pour renforcer l'isolation, ou utiliser les VMs pour certains services critiques et les conteneurs pour les applications plus légères. Beaucoup d'entreprises combinent les deux selon leurs besoins.
+
+## Questions pratiques
+
+**Après `docker container run alpine echo "hello from alpine"`**
+
+La commande affiche le texte puis le conteneur s'arrête immédiatement, c'est normal car la commande est terminée.
+
+**Après `docker container run alpine /bin/sh`**
+
+Le conteneur démarre et s'arrête tout de suite parce que le shell n'a pas de terminal pour interagir.
+
+**Après `docker container run -it alpine /bin/sh`**
+
+Vous obtenez un shell interactif grâce aux options -i (interactif) et -t (terminal).
+
+**Le résultat de `docker container ls -a`**
+
+Cette commande montre tous les conteneurs créés, même ceux qui sont arrêtés, avec leur ID, l'image utilisée, la commande exécutée et leur statut.
+
+**Pourquoi autant de conteneurs de la même image alpine ?**
+
+Chaque `docker run` crée un nouveau conteneur, même avec la même image. C'est le principe d'isolation : chaque conteneur est une instance séparée avec son propre système de fichiers.
+
+**Comment revenir au conteneur avec le fichier hello.txt ?**
+
+Il faut redémarrer le conteneur spécifique où le fichier a été créé avec `docker container start <ID>`, puis utiliser `docker container exec <ID> ls` pour y accéder. Le fichier n'existe que dans ce conteneur précis.
